@@ -1,0 +1,51 @@
+version: '3.9'
+services:
+  db:
+    image: mariadb:10.3
+    restart: unless-stopped
+    networks:
+      - traefik_proxy
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: "true"
+      MYSQL_DATABASE: "$PASSBOLT_DB_NAME"
+      MYSQL_USER: "$PASSBOLT_DB_USER"
+      MYSQL_PASSWORD: "PASSBOLT_DB_PASS"
+    volumes:
+      - database_volume:/var/lib/mysql
+
+  passbolt:
+    image: passbolt/passbolt:latest-ce
+    restart: unless-stopped
+    networks:
+      - traefik_proxy
+    depends_on:
+      - db
+    environment:
+      APP_FULL_BASE_URL: "https://$HOSTNAME"
+      DATASOURCES_DEFAULT_HOST: "db"
+      DATASOURCES_DEFAULT_USERNAME: "$PASSBOLT_DB_USER"
+      DATASOURCES_DEFAULT_PASSWORD: "$PASSBOLT_DB_PASS"
+      DATASOURCES_DEFAULT_DATABASE: "$PASSBOLT_DB_NAME"
+      EMAIL_TRANSPORT_DEFAULT_HOST: "$EMAIL_TRANSPORT_DEFAULT_HOST"
+      EMAIL_TRANSPORT_DEFAULT_PORT: "587"
+      EMAIL_TRANSPORT_DEFAULT_USERNAME: "$EMAIL_TRANSPORT_DEFAULT_USERNAME"
+      EMAIL_TRANSPORT_DEFAULT_PASSWORD: "$EMAIL_TRANSPORT_DEFAULT_PASSWORD"
+      EMAIL_TRANSPORT_DEFAULT_TLS: "true"
+      EMAIL_DEFAULT_FROM: "$EMAIL_DEFAULT_FROM"
+    volumes:
+      - gpg_volume:/etc/passbolt/gpg
+      - jwt_volume:/etc/passbolt/jwt
+    command: ["/usr/bin/wait-for.sh", "-t", "0", "db:3306", "--", "/docker-entrypoint.sh"]
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.budibase.rule=Host(`$HOSTNAME`)"
+      - "traefik.http.routers.budibase.entrypoints=websecure"
+
+volumes:
+  database_volume:
+  gpg_volume:
+  jwt_volume:
+  
+networks:
+  traefik_proxy:
+    external: true
