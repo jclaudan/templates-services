@@ -1,0 +1,23 @@
+version: '3'
+
+services:
+  remotely:
+    image: "immybot/remotely:latest"
+    container_name: "remotely"
+    restart: unless-stopped
+    networks:
+      - traefik_proxy
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - remotely_data:/remotely-data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.remotely.rule=Host(`$PUBLIC_HOSTNAME`)"      
+      - "traefik.http.routers.remotely.tls=true"      
+      - "traefik.http.services.remotely.loadbalancer.server.port=5000"      
+
+volumes:
+  remotely_data:
+networks:
+  traefik_proxy:
+    external: true
