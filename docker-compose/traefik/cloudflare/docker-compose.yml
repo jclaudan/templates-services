@@ -9,7 +9,7 @@ services:
       - 1.1.1.1
       - 8.8.8.8
     networks:
-      - traefik_proxy
+      - proxy_network
     ports:
       - "80:80"
       - "443:443"
@@ -70,7 +70,8 @@ services:
       # - "traefik.http.middlewares.traefik-auth.basicauth.users=$BASIC_AUTH_LOGIN"
       # - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
       # - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
-      
+
 networks:
-  traefik_proxy:
+  proxy_network:
+    name: $PROXY_NETWORK
     external: true

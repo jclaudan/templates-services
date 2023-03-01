@@ -9,7 +9,7 @@ services:
       - "$WG_UDP_PORT:$WG_UDP_PORT/udp" # tunnel
       # - "51821:51821/tcp" # ui
     networks:
-      - traefik_proxy
+      - proxy_network
     volumes:
       - wg-easy:/etc/wireguard
     environment:
@@ -35,11 +35,13 @@ services:
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.wg-easy.rule=Host(`$PUBLIC_HOSTNAME`)"
-      - "traefik.http.routers.wg-easy.tls=true"      
+      - "traefik.http.routers.wg-easy.tls=true"
       - "traefik.http.services.wg-easy.loadbalancer.server.port=51821" # WebUI Port
 
-networks:
-  traefik_proxy:
-    external: true
 volumes:
   wg-easy:
+
+networks:
+  proxy_network:
+    name: $PROXY_NETWORK
+    external: true

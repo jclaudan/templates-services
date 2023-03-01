@@ -6,18 +6,20 @@ services:
     container_name: "remotely"
     restart: unless-stopped
     networks:
-      - traefik_proxy
+      - proxy_network
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - remotely_data:/remotely-data
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.remotely.rule=Host(`$PUBLIC_HOSTNAME`)"      
-      - "traefik.http.routers.remotely.tls=true"      
-      - "traefik.http.services.remotely.loadbalancer.server.port=5000"      
+      - "traefik.http.routers.remotely.rule=Host(`$PUBLIC_HOSTNAME`)"
+      - "traefik.http.routers.remotely.tls=true"
+      - "traefik.http.services.remotely.loadbalancer.server.port=5000"
 
 volumes:
   remotely_data:
+
 networks:
-  traefik_proxy:
+  proxy_network:
+    name: $PROXY_NETWORK
     external: true
