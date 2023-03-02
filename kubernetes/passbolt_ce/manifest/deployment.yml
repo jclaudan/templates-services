@@ -91,6 +91,8 @@ spec:
       labels:
         app: passbolt-ce
     spec:
+      securityContext:
+        fsGroup: 33 # id of www-data group ; needed for volume access with non-root image
       containers:
         - name: passbolt
           # image: passbolt/passbolt:latest-ce
