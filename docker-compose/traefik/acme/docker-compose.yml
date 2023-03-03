@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  traefik:
+    image: "traefik:latest"
+    container_name: "traefik"
+    restart: unless-stopped
+    dns:
+      - 1.1.1.1
+      - 8.8.8.8
+    networks:
+      - proxy_network
+    ports:
+      - "80:80"
+      - "443:443"
+    command:
+      - "--providers.docker=true"
+      - "--providers.docker.exposedByDefault=false"
+      # Traefik settings
+      - "--log.level=INFO" # level: debug, info, warning, error, critical
+      - "--global.checkNewVersion=true"
+      - "--global.sendAnonymousUsage=false"
+      - "--serverstransport.insecureskipverify=true" # when forwarding to selfsigned
+      # Certificate resolver acme
+      - "--certificatesresolvers.http.acme.email=$ACME_EMAIL"
+      - "--certificatesresolvers.http.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.http.acme.tlschallenge=true"
+      ## Remove comment on acme-staging resolver for testing
+      # - "--certificatesResolvers.http.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
+      # Configure entrypoints
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.websecure.http.tls=true"
+      - "--entrypoints.websecure.http.tls.certResolver=http"
+      # Enable dashboard
+      - "--api=true"
+      - "--api.dashboard=true"
+      - "--api.insecure=false"
+    environment:
+      - ACME_EMAIL=$ACME_EMAIL
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - traefik_certs:/letsencrypt
+    #labels:
+      #- "traefik.enable=true"
+      #- "traefik.http.routers.traefik-secure.service=api@internal"
+      #- "traefik.http.routers.traefik-secure.entrypoints=websecure"
+      #- "traefik.http.routers.traefik-secure.rule=Host(`t.$DOMAINNAME`)"
+
+volumes:
+  traefik_certs:
+
+networks:
+  proxy_network:
+    name: $PROXY_NETWORK
+    external: true

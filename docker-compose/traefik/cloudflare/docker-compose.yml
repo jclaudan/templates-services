@@ -21,15 +21,12 @@ services:
       - "--providers.docker.exposedbydefault=false" # Default is true
       #- "--providers.file.filename=/file_provider.yml" # Default is true
       #- "--providers.file.watch=true"
-      # Configure entrypoints
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.websecure.address=:443"
-      # traefik server settings
+      # Traefik settings
       - "--log.level=INFO" # level: debug, info, warning, error, critical
       - "--global.checkNewVersion=true"
       - "--global.sendAnonymousUsage=false"
       - "--serversTransport.insecureSkipVerify=true" # when forwarding to selfsigned
-      # certificate resolver cloudflare
+      # Certificate resolver cloudflare
       - "--certificatesResolvers.cf-staging.acme.email=$CF_API_EMAIL"
       - "--certificatesResolvers.cf-staging.acme.storage=acme.json"
       - "--certificatesResolvers.cf-staging.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory" # default is production
@@ -41,7 +38,9 @@ services:
       - "--certificatesResolvers.cf-production.acme.dnsChallenge.provider=cloudflare"
       - "--certificatesResolvers.cf-production.acme.dnsChallenge.resolvers[0]=1.1.1.1:53"
       - "--certificatesResolvers.cf-production.acme.dnsChallenge.resolvers[1]=1.0.0.1:53"
-      # tls on endpoint and redirection
+      # Configure entrypoints
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
       - "--entrypoints.websecure.http.tls.certResolver=cf-$CF_STAGING_OR_PRODUCTION"
       - "--entrypoints.websecure.http.tls.domains[0].main=$DOMAINNAME"

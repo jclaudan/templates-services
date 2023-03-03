@@ -13,8 +13,8 @@ services:
       - ADMIN_TOKEN=$ADMIN_TOKEN
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.remotely.rule=Host(`$PUBLIC_HOSTNAME`)"
-      - "traefik.http.routers.remotely.tls=true"
+      - "traefik.http.routers.vaultwarden.rule=Host(`$PUBLIC_HOSTNAME`)"
+      - "traefik.http.routers.vaultwarden.tls=true"
 
 volumes:
   vaultwarden_data:
