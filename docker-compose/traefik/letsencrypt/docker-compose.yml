@@ -22,11 +22,11 @@ services:
       - "--global.sendAnonymousUsage=false"
       - "--serverstransport.insecureskipverify=true" # when forwarding to selfsigned
       # Certificate resolver acme
-      - "--certificatesresolvers.http.acme.email=$ACME_EMAIL"
-      - "--certificatesresolvers.http.acme.storage=/letsencrypt/acme.json"
-      - "--certificatesresolvers.http.acme.tlschallenge=true"
+      - "--certificatesresolvers.letsencrypt.acme.email=$ACME_EMAIL"
+      - "--certificatesresolvers.letsencrypt.acme.storage=/letsencrypt/acme.json"
+      - "--certificatesresolvers.letsencrypt.acme.tlschallenge=true"
       ## Remove comment on acme-staging resolver for testing
-      # - "--certificatesResolvers.http.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
+      # - "--certificatesResolvers.letsencrypt.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory"
       # Configure entrypoints
       - "--entrypoints.web.address=:80"
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
@@ -43,11 +43,12 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik_certs:/letsencrypt
-    #labels:
-      #- "traefik.enable=true"
-      #- "traefik.http.routers.traefik-secure.service=api@internal"
-      #- "traefik.http.routers.traefik-secure.entrypoints=websecure"
-      #- "traefik.http.routers.traefik-secure.rule=Host(`t.$DOMAINNAME`)"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik.service=api@internal"
+      - "traefik.http.routers.traefik.entrypoints=websecure"
+      - "traefik.http.routers.traefik.rule=Host(`t.$DOMAINNAME`)"
+      - "traefik.http.routers.traefik.tls.certresolver=letsencrypt"
 
 volumes:
   traefik_certs:

@@ -23,6 +23,7 @@ services:
       - "traefik.http.routers.psuniversal.tls=true"
       - "traefik.http.middlewares.psuniversal-to-https.redirectscheme.scheme=https"
       - "traefik.http.middlewares.psuniversal-to-https.redirectscheme.permanent=true"
+      # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt" # when using tlsChallenge certresolver
 
 volumes:
   psuniversal_data:

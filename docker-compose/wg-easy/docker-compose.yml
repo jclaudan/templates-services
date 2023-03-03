@@ -37,6 +37,7 @@ services:
       - "traefik.http.routers.wg-easy.rule=Host(`$PUBLIC_HOSTNAME`)"
       - "traefik.http.routers.wg-easy.tls=true"
       - "traefik.http.services.wg-easy.loadbalancer.server.port=51821" # WebUI Port
+      # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt" # when using tlsChallenge certresolver
 
 volumes:
   wg-easy:

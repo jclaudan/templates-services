@@ -49,6 +49,7 @@ services:
       - "traefik.http.routers.passbolt.tls=true"
       - "traefik.http.services.passbolt.loadbalancer.server.port=4433"
       - "traefik.http.services.passbolt.loadbalancer.server.scheme=https"
+      # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt" # when using tlsChallenge certresolver
 
 volumes:
   database_volume:

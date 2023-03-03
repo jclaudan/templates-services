@@ -34,7 +34,7 @@ services:
       - "--certificatesResolvers.cf-staging.acme.dnsChallenge.resolvers[0]=1.1.1.1:53"
       - "--certificatesResolvers.cf-staging.acme.dnsChallenge.resolvers[1]=1.0.0.1:53"
       - "--certificatesResolvers.cf-production.acme.email=$CF_API_EMAIL"
-      - "--certificatesResolvers.cf-production.acme.storage=acme.json"
+      - "--certificatesResolvers.cf-production.acme.storage=/cloudflare/acme.json"
       - "--certificatesResolvers.cf-production.acme.dnsChallenge.provider=cloudflare"
       - "--certificatesResolvers.cf-production.acme.dnsChallenge.resolvers[0]=1.1.1.1:53"
       - "--certificatesResolvers.cf-production.acme.dnsChallenge.resolvers[1]=1.0.0.1:53"
@@ -58,7 +58,7 @@ services:
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
-      - "/opt/traefik/acme.json:/acme.json" # touch /opt/traefik/acme.json && chmod 600 /opt/traefik/acme.json
+      - traefik_certs:/cloudflare
     labels:
       # https part
       - "traefik.enable=true"
@@ -69,6 +69,9 @@ services:
       # - "traefik.http.middlewares.traefik-auth.basicauth.users=$BASIC_AUTH_LOGIN"
       # - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
       # - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+
+volumes:
+  traefik_certs:
 
 networks:
   proxy_network:
