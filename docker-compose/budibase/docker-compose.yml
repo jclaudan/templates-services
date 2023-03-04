@@ -24,7 +24,7 @@ services:
      - "traefik.enable=true"
      - "traefik.http.routers.budibase.rule=Host(`$PUBLIC_HOSTNAME`)"
      - "traefik.http.routers.budibase.entrypoints=websecure"
-     # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt" # when using tlsChallenge certresolver
+     # - "traefik.http.routers.budibase.tls.certresolver=letsencrypt" # when using tlsChallenge certresolver
 
 volumes:
   budibase_data:

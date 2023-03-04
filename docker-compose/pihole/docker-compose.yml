@@ -30,7 +30,8 @@ services:
      - "traefik.http.routers.pihole.middlewares=pihole-admin"
      # exclude /admin from middleware
      - "traefik.http.routers.pihole-admin.rule=Host(`$PUBLIC_HOSTNAME`) && PathPrefix(`/admin`)"
-     # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt" # when using tlsChallenge certresolver
+     # - "traefik.http.routers.pihole.tls.certresolver=letsencrypt" # when using tlsChallenge certresolver
+     # - "traefik.http.routers.pihole-admin.tls.certresolver=letsencrypt" # when using tlsChallenge certresolver
 
 volumes:
   pihole_data:

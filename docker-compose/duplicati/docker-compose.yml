@@ -26,7 +26,8 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.duplicati.rule=Host(`$PUBLIC_HOSTNAME`)"
       - "traefik.http.routers.duplicati.entrypoints=websecure"
-      # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt" # when using tlsChallenge certresolver
+      # - "traefik.http.routers.duplicati.tls.certresolver=letsencrypt" # when using tlsChallenge certresolver
+
 volumes:
   duplicati_config:
   duplicati_backups:
