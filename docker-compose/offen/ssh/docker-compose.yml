@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  # ... define other services using the `data` volume here
+  backup:
+    image: offen/docker-volume-backup:v2
+    environment:
+      SSH_HOST_NAME: server.local
+      SSH_PORT: 2222
+      SSH_USER: user
+      SSH_REMOTE_PATH: /data
+    volumes:
+      - data:/backup/my-app-backup:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /path/to/private_key:/root/.ssh/id_rsa
+
+volumes:
+  data:
