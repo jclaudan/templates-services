@@ -29,7 +29,7 @@ services:
       - proxy_network
     # ports:
     #  - "80:80"
-    #  - "443:443"
+    #  - "443:443" # If https is enabled, cancel the comment.
     depends_on:
       - db
       - memcached
