@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: cf-tunnel
+  name: cf-tunnel
+  namespace:  my-cloudflared
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: cf-tunnel
+  template:
+    metadata:
+      labels:
+        pod: cf-tunnel
+    spec:
+      containers:
+      - name: cf-tunnel
+        image: cloudflare/cloudflared:latest
+        resources: {}
+        args:
+        - tunnel
+        - run
+        envFrom:
+        - configMapRef:
+            name: cf-tunnel-cm
+        - secretRef:
+            name: cf-tunnel-secret
