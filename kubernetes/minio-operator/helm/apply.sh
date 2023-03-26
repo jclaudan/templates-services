@@ -1,7 +1,7 @@
 #!/bin/bash
-CHART_NAME="nextcloud"
-REPO_NAME="nextcloud"
-NAMESPACE="my-nextcloud"
+CHART_NAME="operator"
+REPO_NAME="minio"
+NAMESPACE="minio-operator"
 
 # scriptvars
 SCRIPT_PATH=${BASH_SOURCE[0]}
@@ -15,3 +15,6 @@ echo "Running helm for $CHART_NAME in $M mode"
 helm $M $CHART_NAME $REPO_NAME/$CHART_NAME \
  --values $SCRIPT_FOLDER/values.yml \
  -n $NAMESPACE --create-namespace
+
+# output JWT for login
+kubectl -n $NAMESPACE get secret console-sa-secret -o jsonpath="{.data.token}" | base64 --decode
