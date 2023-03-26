@@ -1,7 +1,7 @@
 ## seafile-db
 ---
-apiVersion: v1
 kind: PersistentVolumeClaim
+apiVersion: v1
 metadata:
   name: seafile-db-pvc
   namespace: my-seafile
@@ -13,8 +13,8 @@ spec:
       storage: 3Gi
 
 ---
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: seafile-db
   namespace: my-seafile
@@ -29,6 +29,7 @@ spec:
     metadata:
       labels:
         app: seafile-db
+        networking/allow-external-https: "true"
     spec:
       containers:
         - image: mariadb:10.5
@@ -74,8 +75,8 @@ spec:
       storage: 5Gi
 
 ---
-apiVersion: apps/v1
 kind: Deployment
+apiVersion: apps/v1
 metadata:
   name: seafile-app
   namespace: my-seafile

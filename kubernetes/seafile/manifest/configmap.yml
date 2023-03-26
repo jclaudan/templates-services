@@ -21,3 +21,4 @@ data:
   SEAFILE_SERVER_LETSENCRYPT: "false"
   DB_HOST: seafile-db
   TIME_ZONE: Europe/Berlin
+  ONLYOFFICE_JWT_SECRET: 'your-secret-string'

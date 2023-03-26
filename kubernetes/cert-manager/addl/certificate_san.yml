@@ -1,0 +1,22 @@
+# internal
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: san-cert-local
+  namespace: my-namespace
+spec:
+  secretName: san-cert-local-secret
+  issuerRef:
+    name: cf-staging # selfsigned, cf-staging, cf-production
+    kind: ClusterIssuer
+  commonName: "local.127.0.0.1.sslip.io" # optional
+  dnsNames:
+    - "*.local.127.0.0.1.sslip.io"
+    - "local.127.0.0.1.sslip.io"
+
+# kubectl get cert-manager
+# k describe certificate -n san-cert-local
+# k get certificaterequest -n san-cert-local
+# k describe certificaterequest -n san-cert-local
+# k -n cert-manager logs deployment/cert-manager
