@@ -27,7 +27,7 @@ services:
     restart: always
     networks:
       - backend
-    command: access tcp -url 0.0.0.0:4343 -hostname $TUNNEL_WEB_HOSTNAME
+    command: access tcp -url 0.0.0.0:9443 -hostname $PUBLIC_WEB_URI_OVERRIDE
     environment:
       - TUNNEL_SERVICE_TOKEN_ID=$TUNNEL_SERVICE_TOKEN_ID
       - TUNNEL_SERVICE_TOKEN_SECRET=$TUNNEL_SERVICE_TOKEN_SECRET
@@ -38,7 +38,7 @@ services:
     restart: always
     networks:
       - backend
-    command: access tcp -url 0.0.0.0:8000 -hostname $TUNNEL_EDGE_HOSTNAME
+    command: access tcp -url 0.0.0.0:8000 -hostname $PUBLIC_EDGE_URI_OVERRIDE
     environment:
       - TUNNEL_SERVICE_TOKEN_ID=$TUNNEL_SERVICE_TOKEN_ID
       - TUNNEL_SERVICE_TOKEN_SECRET=$TUNNEL_SERVICE_TOKEN_SECRET
