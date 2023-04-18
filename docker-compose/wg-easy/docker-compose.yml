@@ -21,7 +21,7 @@ services:
       # - WG_DEFAULT_ADDRESS=$WG_CLIENT_RANGE # 10.8.0.x
       - WG_DEFAULT_DNS=$WG_DEFAULT_DNS # 192.168.0.1,1.1.1.1
       # - WG_MTU=1420
-      - WG_ALLOWED_IPS=$WG_DEFAULT_DNS # 192.168.10.0/24,192.168.33.0/24
+      - WG_ALLOWED_IPS=$WG_ALLOWED_IPS # 192.168.10.0/24,192.168.33.0/24
       # - WG_PRE_UP=echo "Pre Up" > /etc/wireguard/pre-up.txt
       # - WG_POST_UP=echo "Post Up" > /etc/wireguard/post-up.txt
       # - WG_PRE_DOWN=echo "Pre Down" > /etc/wireguard/pre-down.txt
