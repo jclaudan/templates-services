@@ -1,4 +1,4 @@
-## passbolt-db
+## pingvinshare
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1

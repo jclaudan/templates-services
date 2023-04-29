@@ -1,7 +1,7 @@
 #!/bin/bash
-CHART_NAME="nextcloud"
-REPO_NAME="nextcloud"
-NAMESPACE="my-nextcloud"
+CHART_NAME="traefik"
+REPO_NAME="traefik"
+NAMESPACE="my-traefik"
 
 # scriptvars
 SCRIPT_PATH=${BASH_SOURCE[0]}
@@ -16,5 +16,12 @@ helm $M $CHART_NAME $REPO_NAME/$CHART_NAME \
  --values $SCRIPT_FOLDER/values.yml \
  -n $NAMESPACE --create-namespace
 
-# apply middleware for ingress
-kubectl apply -f $SCRIPT_FOLDER/addl/middlewares.yml
+# on first install
+[ "$M" == 'install' ] && {
+    echo "wait for traefik to come up"
+    kubectl -ntraefik-system rollout status deploy/traefik
+
+    echo "apply ClusterIssuer resources"
+    kubectl apply -f $SCRIPT_FOLDER/resources/IngressClass.yml
+    kubectl apply -f $SCRIPT_FOLDER/expose_ui/ingressroute.yml
+}

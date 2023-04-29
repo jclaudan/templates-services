@@ -1,7 +1,7 @@
 #!/bin/bash
-CHART_NAME="nextcloud"
-REPO_NAME="nextcloud"
-NAMESPACE="my-nextcloud"
+CHART_NAME="netmaker"
+REPO_NAME="netmaker"
+NAMESPACE="my-netmaker"
 
 # scriptvars
 SCRIPT_PATH=${BASH_SOURCE[0]}

@@ -1,7 +1,7 @@
 #!/bin/bash
-CHART_NAME="nextcloud"
-REPO_NAME="nextcloud"
-REPO_URL="https://nextcloud.github.io/helm/"
+CHART_NAME="netmaker"
+REPO_NAME="netmaker"
+REPO_URL="https://gravitl.github.io/netmaker-helm/"
 
 # scriptvars
 SCRIPT_PATH=${BASH_SOURCE[0]}

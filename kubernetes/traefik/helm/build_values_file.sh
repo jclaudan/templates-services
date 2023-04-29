@@ -1,7 +1,7 @@
 #!/bin/bash
-CHART_NAME="nextcloud"
-REPO_NAME="nextcloud"
-REPO_URL="https://nextcloud.github.io/helm/"
+CHART_NAME="traefik"
+REPO_NAME="traefik"
+REPO_URL="https://traefik.github.io/charts"
 
 # scriptvars
 SCRIPT_PATH=${BASH_SOURCE[0]}
