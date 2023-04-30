@@ -21,7 +21,7 @@ spec:
         - key: kubernetes.io/hostname
           operator: In
           values:
-          - csk3s
+          - REPLACE_KUBEHOSTNAME
 
 ---
 kind: PersistentVolumeClaim
