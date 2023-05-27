@@ -1,4 +1,4 @@
-# Running Headscale command
+# Running Headscale commands
 ```
 # Create an alias for easy usage
 alias headscale="kubectl -n my-headscale exec deploy/headscale -c headscale -it -- headscale"
@@ -25,10 +25,10 @@ headscale users create myfirstuser
 curl -fsSL https://tailscale.com/install.sh | sh
 
 # Login
-tailsacle up --accept-routes --login-server=https://<YOUR_HEADSCALE_URL>
+tailsacle up --login-server=https://<YOUR_HEADSCALE_URL>
 headscale --user myfirstuser nodes register --key <YOU_+MACHINE_KEY>
 
-# Preauth
+# Login with preauth
 headscale --user myfirstuser preauthkeys create --reusable --expiration 24h
 tailscale up --login-server https://<YOUR_HEADSCALE_URL> --authkey <YOUR_AUTH_KEY>
 ```
