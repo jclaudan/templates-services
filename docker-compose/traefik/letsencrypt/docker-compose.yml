@@ -32,7 +32,7 @@ services:
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
-      - "--entrypoints.websecure.http.tls.certResolver=http"
+      - "--entrypoints.websecure.http.tls.certResolver=letsencrypt"
       # Enable dashboard
       - "--api=true"
       - "--api.dashboard=true"
@@ -44,7 +44,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik_certs:/letsencrypt
     labels:
-      - "traefik.enable=true"
+      - "traefik.enable=$DASHBOARDENABLED"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.rule=Host(`t.$DOMAINNAME`)"

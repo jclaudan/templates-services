@@ -61,7 +61,7 @@ services:
       - traefik_certs:/cloudflare
     labels:
       # https part
-      - "traefik.enable=true"
+      - "traefik.enable=$DASHBOARDENABLED"
       - "traefik.http.routers.traefik-secure.service=api@internal"
       - "traefik.http.routers.traefik-secure.entrypoints=websecure"
       - "traefik.http.routers.traefik-secure.rule=Host(`t.$DOMAINNAME`)"

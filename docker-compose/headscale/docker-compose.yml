@@ -47,7 +47,7 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.headscale-ui.rule=Host(`$PUBLIC_HOSTNAME`) && PathPrefix(`/webui`)"
       - "traefik.http.routers.headscale-ui.entrypoints=websecure"
-      # - traefik.http.services.headscale.loadbalancer.server.port=8080
+      # - traefik.http.services.headscale-ui.loadbalancer.server.port=8080
 
 networks:
   backend:
