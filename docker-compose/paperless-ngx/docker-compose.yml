@@ -1,4 +1,4 @@
-# create user: sudo docker-compose run --rm webserver createsuperuser
+# create user: sudo docker-compose run --rm paperless-ngx createsuperuser
 version: "3.4"
 services:
   db:
@@ -10,8 +10,8 @@ services:
       - paperless_db:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: paperless
-      POSTGRES_USER: paperless
-      POSTGRES_PASSWORD: paperless
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
 
   broker:
     image: docker.io/library/redis:6.0
@@ -24,6 +24,7 @@ services:
 
   paperless-ngx:
     image: ghcr.io/paperless-ngx/paperless-ngx:latest
+    container_name: "paperless-ngx"
     restart: unless-stopped
     networks:
       - backend

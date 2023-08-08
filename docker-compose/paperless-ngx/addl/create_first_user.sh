@@ -1,2 +1,2 @@
 #!/bin/bash
-docker-compose run --rm paperless-ngx createsuperuser
+docker exec -it paperless-ngx python3 manage.py createsuperuser

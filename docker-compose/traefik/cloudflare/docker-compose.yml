@@ -28,7 +28,7 @@ services:
       - "--serversTransport.insecureSkipVerify=true" # when forwarding to selfsigned
       # Certificate resolver cloudflare
       - "--certificatesResolvers.cf-staging.acme.email=$CF_API_EMAIL"
-      - "--certificatesResolvers.cf-staging.acme.storage=acme.json"
+      - "--certificatesResolvers.cf-staging.acme.storage=/cloudflare/acme.json"
       - "--certificatesResolvers.cf-staging.acme.caServer=https://acme-staging-v02.api.letsencrypt.org/directory" # default is production
       - "--certificatesResolvers.cf-staging.acme.dnsChallenge.provider=cloudflare"
       - "--certificatesResolvers.cf-staging.acme.dnsChallenge.resolvers[0]=1.1.1.1:53"
