@@ -30,7 +30,7 @@ services:
       - "traefik.http.routers.urbackup.rule=Host(`$PUBLIC_HOSTNAME`)"
       - "traefik.http.routers.urbackup.tls=true"
       - "traefik.http.services.urbackup.loadbalancer.server.port=55414"
-      # - "traefik.http.routers.traefik.tls.certresolver=letsencrypt" # when using tlsChallenge certresolver
+      # - "traefik.http.routers.urbackup.tls.certresolver=cf-production" # when using tlsChallenge certresolver
 
 volumes:
   urbackup_data:
