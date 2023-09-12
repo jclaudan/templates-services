@@ -33,6 +33,13 @@ spec:
       port: 53
     - protocol: UDP
       port: 53
+  # oods need outbound rules for file uploads, public ip of your nextcloud instance as example
+  - to:
+    - ipBlock:
+        cidr: 0.0.0.0/0
+    ports:
+    - protocol: TCP
+      port: 443
 
 # ingress from proxy namespaces allow
 ---
@@ -52,9 +59,10 @@ spec:
               kubernetes.io/metadata.name: traefik-system
         - namespaceSelector:
             matchLabels:
+              kubernetes.io/metadata.name: my-traefik
+        - namespaceSelector:
+            matchLabels:
               kubernetes.io/metadata.name: my-cloudflared
       ports:
         - protocol: TCP
           port: 80
-        - protocol: TCP
-          port: 443

@@ -1,0 +1,90 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all-except-kube-dns
+  namespace: my-keycloak
+spec:
+  policyTypes:
+  - Ingress
+  - Egress
+  podSelector: {}
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: kube-system
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+
+# app
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-keycloak
+  namespace: my-keycloak
+spec:
+  podSelector:
+    matchLabels:
+      app: keycloak-app
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: traefik-system
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: my-traefik
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: kube-system
+          podSelector:
+            matchLabels:
+              app.kubernetes.io/name: traefik
+      ports:
+        - port: 8080
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: keycloak-db
+      ports:
+        - port: 3306
+
+# db
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-keycloak-db-ingress
+  namespace: my-keycloak
+spec:
+  podSelector:
+    matchLabels:
+      app: paperless-ngx-db
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    # - from:
+    #     - podSelector:
+    #         matchLabels:
+    #           app: paperless-ngx-redis
+    #   ports:
+    #     - port: 5432
+    - from:
+        - podSelector:
+            matchLabels:
+              app: keycloak-app
+      ports:
+        - port: 3306
