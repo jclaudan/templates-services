@@ -9,7 +9,7 @@ services:
     networks:
       - proxy_network
     ports:
-      # - "8880:5000" # ui
+      - "8880:5000" # ui (needed for distributed monitoring)
       - "8000:8000" # agent
       - "6557:6557" # for distributed monitoring --> und omd config <site> inside container
     tmpfs:
