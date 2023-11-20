@@ -23,9 +23,11 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.netboot-ui.entrypoints=websecure"
       - "traefik.http.routers.netboot-ui.rule=Host(`$UI_HOSTNAME`)"
+      - "traefik.http.routers.netboot-ui.service=netboot-ui"
       - "traefik.http.services.netboot-ui.loadbalancer.server.port=3000"
       - "traefik.http.routers.netboot-assets.entrypoints=websecure"
       - "traefik.http.routers.netboot-assets.rule=Host(`$ASSETS_HOSTNAME`)"
+      - "traefik.http.routers.netboot-assets.service=netboot-assets"
       - "traefik.http.services.netboot-assets.loadbalancer.server.port=8080"
 
 volumes:

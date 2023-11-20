@@ -1,3 +1,4 @@
+# IMPORTANT
 # docker run --rm -v guacamole_init:/var/tmp guacamole/guacamole:1.5.0 sh -c '/opt/guacamole/bin/initdb.sh --postgres > /var/tmp/initdb.sql'
 version: '3.9'
 
