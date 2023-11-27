@@ -5,7 +5,7 @@ metadata:
   name: traefik-dashboard-ingress
   namespace: kube-system
   annotations:
-    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
     # basic auth
     # traefik.ingress.kubernetes.io/router.middlewares: my-traefik-traefik-dashboard-auth@kubernetescrd # namespace-middlewarename@kubernetescrdprovider
 
