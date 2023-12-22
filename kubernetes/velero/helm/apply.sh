@@ -1,7 +1,7 @@
 #!/bin/bash
-CHART_NAME="cert-manager"
-REPO_NAME="jetstack"
-NAMESPACE="cert-manager"
+CHART_NAME="velero"
+REPO_NAME="vmware-tanzu"
+REPO_URL="https://vmware-tanzu.github.io/helm-charts"
 
 # scriptvars
 SCRIPT_PATH=${BASH_SOURCE[0]}

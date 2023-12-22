@@ -9,10 +9,11 @@ SCRIPT_FOLDER=$(dirname -- $SCRIPT_PATH)
 # FILE="$CHART_NAME-values.yml"
 FILE="values.yml"
 
+# using helm
+helm repo add $REPO_NAME $REPO_URL
+helm repo update $REPO_NAM
+
 # crate values file
-test -f "$SCRIPT_FOLDER/$FILE" && echo "$FILE already exists" || {
-    # using helm
-    helm repo add $REPO_NAME $REPO_URL
-    helm repo update $REPO_NAME
+test -f "$SCRIPT_FOLDER/$FILE" && echo "$FILE already exists" || {E
     helm show values $REPO_NAME/$CHART_NAME > $SCRIPT_FOLDER/$FILE
 }

@@ -1,22 +1,25 @@
 ---
-apiVersion: networking.k8s.io/v1
 kind: Ingress
+apiVersion: networking.k8s.io/v1
 metadata:
-  name: passbolt
-  namespace: my-passbolt
+  name: longhorn-dashboard
+  namespace: my-longhorn
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     cert-manager.io/cluster-issuer: selfsigned
 spec:
   rules:
-  - host: passbolt.local.127.0.0.1.sslip.io
+  - host: l.local.127.0.0.1.sslip.io
     http:
       paths:
       - backend:
           service:
-            name: passbolt-ce
+            name: longhorn-frontend
             port:
-              number: 8080
+              number: 80
         path: /
         pathType: Prefix
-  tls: []
+  tls:
+  - hosts:
+    - l.local.127.0.0.1.sslip.io
+    secretName: longhorn-dashboard-cert

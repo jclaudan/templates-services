@@ -1,6 +1,6 @@
 installCRDs: true
 
-podDnsConfig: # changed by me
+podDnsConfig:
   nameservers:
     - "1.1.1.1"
     - "8.8.8.8"
