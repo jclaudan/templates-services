@@ -13,7 +13,7 @@ FILE="values.yml"
 helm repo add $REPO_NAME $REPO_URL
 helm repo update $REPO_NAM
 
-# crate values file
+# create values file
 test -f "$SCRIPT_FOLDER/$FILE" && echo "$FILE already exists" || {E
     helm show values $REPO_NAME/$CHART_NAME > $SCRIPT_FOLDER/$FILE
 }
