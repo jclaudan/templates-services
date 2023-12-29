@@ -38,6 +38,7 @@ spec:
   config:
     region: minio
     profile: "default"
+    s3ForcePathStyle: "true"
     s3Url: "http://minio:9000"
     publicUrl: "https://minio.mycluster.com"
   accessMode: ReadWrite # ReadOnly
