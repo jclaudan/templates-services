@@ -10,12 +10,12 @@ labels:
 #     - "tp.<DOMAINNAME>.de"
 apps:
 - name: placeholder
-  uri: http://webapp.my-namespace.svc.cluster.public
-# - name: longhorn-oracle
-#   uri: http://longhorn-frontend.longhorn-system.svc.cluster.public
+  uri: http://webapp.my-namespace.svc.cluster.local
+# - name: longhorn-<CLUSTERNAME>
+#   uri: http://longhorn-frontend.my-longhorn.svc.cluster.local
 #   insecure_skip_verify: yes
-#   public_addr: longhornorc.tp.<DOMAINNAME>
-# - name: traefik-oracle
-#   uri: http://traefik-dashboard.my-traefik.svc.cluster.public:9000/dashboard/#
+#   public_addr: longhorn.tp.<DOMAINNAME>
+# - name: traefik-<CLUSTERNAME>
+#   uri: http://traefik-dashboard.my-traefik.svc.cluster.local:9000/dashboard/#
 #   insecure_skip_verify: yes
-#   public_addr: traefikorc.tp.<DOMAINNAME>
+#   public_addr: traefik.tp.<DOMAINNAME>
