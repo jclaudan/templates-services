@@ -7,7 +7,7 @@ Docspell is a personal document organizer. Or sometimes called a "Document Manag
 ## Notes
 ### Modified version of https://github.com/eikek/docspell/tree/master/kubernetes
 - added init-container to solve solr permission error with volumeMounts
-- add subpath volumeMount for postgres container
+- added subpath volumeMount for postgres container
 - modify ingress for traefik
 - added oidc configuration as overlay
 - added oidc with hostpath as overlay for my truenas deployments ( make sure directory exists )
