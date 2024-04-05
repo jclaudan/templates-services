@@ -118,7 +118,8 @@ services:
 
   #UI dashboard
   dashboard:
-    image: wiretrustee/dashboard:latest
+    # image: wiretrustee/dashboard:latest
+    image: netbirdio/dashboard:main
     restart: unless-stopped
     depends_on:
       init_management:

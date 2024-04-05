@@ -1,8 +1,20 @@
 ---
-kind: Namespace
-apiVersion: v1
+kind: Certificate
+apiVersion: cert-manager.io/v1
 metadata:
-  name: my-traefik
+  name: traefik-san-local-cert
+  namespace: my-traefik
+spec:
+  secretName: traefik-san-local-cert
+  issuerRef:
+    # name: cf-production
+    # name: cf-staging
+    name: selfsigned
+    kind: ClusterIssuer
+  commonName: "*.local.127.0.0.1.sslip.io" # optional
+  dnsNames:
+    - "*.local.127.0.0.1.sslip.io"
+    - "local.127.0.0.1.sslip.io"
 
 ---
 kind: Secret
@@ -69,7 +81,7 @@ metadata:
   annotations:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     # traefik.ingress.kubernetes.io/router.middlewares: my-traefik-traefik-dashboard-auth@kubernetescrd,traefik-system-traefik-dashboard-rewrite@kubernetescrd
-    cert-manager.io/cluster-issuer: selfsigned
+    # cert-manager.io/cluster-issuer: selfsigned
 spec:
   rules:
   - host: t.local.127.0.0.1.sslip.io
@@ -85,4 +97,4 @@ spec:
   tls:
   - hosts:
     - t.local.127.0.0.1.sslip.io
-    secretName: traefik-dashboard-cert
+    secretName: traefik-san-local-cert

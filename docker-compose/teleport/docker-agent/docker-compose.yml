@@ -9,7 +9,7 @@ services:
     networks:
       - proxy_network
     volumes:
-      - /usr/share/teleport/config:/etc/teleport
+      - /opt/teleport-agent:/etc/teleport
       - data:/var/lib/teleport
       # if you need to store ssh keys etc...
       # - ssh_drive:/root

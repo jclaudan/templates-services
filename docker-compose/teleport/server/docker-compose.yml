@@ -8,7 +8,7 @@ services:
     networks:
       - proxy_network
     volumes:
-      - /usr/share/teleport/config:/etc/teleport
+      - /opt/teleport:/etc/teleport
       - data:/var/lib/teleport
     labels:
       - "traefik.enable=true"
