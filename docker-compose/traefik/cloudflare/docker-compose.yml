@@ -47,6 +47,15 @@ services:
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.$DOMAINNAME"
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      # Load example plugins
+      # - "--experimental.plugins.geoblock.modulename=github.com/PascalMinder/geoblock"
+      # - "--experimental.plugins.geoblock.version=v0.2.7"
+      ## Apply plugin middleware to all incomming traffic via entrypoints
+      # - "--entrypoints.websecure.http.middlewares=geoblock"
+      # - "--entryPoints.websecure.proxyProtocol.insecure"
+      # - "--entrypoints.websecure.forwardedHeaders.insecure"
+      # - "--entrypoints.web.http.middlewares=geoblock"
+      # - "--entryPoints.web.proxyProtocol.insecure"
       # enable dashboard
       - "--api=true"
       - "--api.dashboard=true"
@@ -69,6 +78,21 @@ services:
       # - "traefik.http.middlewares.traefik-auth.basicauth.users=$BASIC_AUTH_LOGIN"
       # - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
       # - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
+      ## Apply plugin middleware to single router/app
+      # - "traefik.http.routers.traefik-secure.middlewares=geoblock"
+      ## Configure plugin middleware
+      # - "traefik.http.middlewares.geoblock.plugin.geoblock.silentStartUp=false"
+      # - "traefik.http.middlewares.geoblock.plugin.geoblock.allowLocalRequests=true"
+      # - "traefik.http.middlewares.geoblock.plugin.geoblock.logLocalRequests=true"
+      # - "traefik.http.middlewares.geoblock.plugin.geoblock.logAllowedRequests=true"
+      # - "traefik.http.middlewares.geoblock.plugin.geoblock.logApiRequests=true"
+      # - "traefik.http.middlewares.geoblock.plugin.geoblock.api=https://get.geojs.io/v1/ip/country/{ip}"
+      # - "traefik.http.middlewares.geoblock.plugin.geoblock.apiTimeoutMs=500"
+      # - "traefik.http.middlewares.geoblock.plugin.geoblock.cacheSize=25"
+      # - "traefik.http.middlewares.geoblock.plugin.geoblock.forceMonthlyUpdate=true"
+      # - "traefik.http.middlewares.geoblock.plugin.geoblock.allowUnknownCountries=false"
+      # - "traefik.http.middlewares.geoblock.plugin.geoblock.unknownCountryApiResponse=nil"
+      # - "traefik.http.middlewares.geoblock.plugin.geoblock.countries[0]=DE"
 
 volumes:
   traefik_certs:
