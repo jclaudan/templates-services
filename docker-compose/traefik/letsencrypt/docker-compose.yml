@@ -35,8 +35,10 @@ services:
       - "--entrypoints.websecure.http.tls.certResolver=letsencrypt"
       # Enable dashboard
       - "--api=true"
-      - "--api.dashboard=true"
+      - "--api.dashboard=$DASHBOARDENABLED"
       - "--api.insecure=false"
+    security_opt:
+      - no-new-privileges:true
     environment:
       - ACME_EMAIL=$ACME_EMAIL
     volumes:
@@ -44,7 +46,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik_certs:/letsencrypt
     labels:
-      - "traefik.enable=$DASHBOARDENABLED"
+      - "traefik.enable=true"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.rule=Host(`t.$DOMAINNAME`)"

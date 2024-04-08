@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: dashboard
-          image: wiretrustee/dashboard
+          #image: wiretrustee/dashboard
+          image: netbirdio/dashboard:main
           ports:
             - containerPort: 80
           command: ["sh", "-c"]

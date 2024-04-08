@@ -7,7 +7,7 @@ resources:
 - ../zitadel
 configMapGenerator:
 - literals:
-  - REMOTE_COTURN=coturn.public.abacus-mediaworks.de
+  - REMOTE_COTURN=coturn.public.127.0.0.1.sslip.io
   name: coturn-domain-cm
 patches:
 - target:

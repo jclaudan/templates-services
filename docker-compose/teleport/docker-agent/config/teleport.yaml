@@ -31,15 +31,14 @@ proxy_service:
 
 app_service:
   enabled: no
-  # enabled: yes
   # apps:
   # - name: "example app"
   #   uri: "http://example-app-url"
-      # insecure_skip_verify: true # optionaly
-      # public_addr: "mypublicnamewospacesordashes.$DOMAINNAME" # optionaly
-      # labels:  # optionaly
-      #   customer: dst
-      #   app: remotely
-      # rewrite:  # optionaly
-      #   headers:
-      #    - "Host: my.internal.hostname"
+  #   insecure_skip_verify: true # optionaly
+  #   public_addr: "mypublicnamewospacesordashes.$DOMAINNAME" # optionaly
+  #   labels:  # optionaly
+  #     customer: my_customer
+  #     app: remotely
+  #   rewrite:  # optionaly
+  #     headers:
+  #       - "Host: my.internal.hostname"
