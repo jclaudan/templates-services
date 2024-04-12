@@ -13,6 +13,11 @@ ingressClass:
   enabled: true
   isDefaultClass: true
 
+# Important to forward real visitor ip to traefik
+service:
+  spec:
+    externalTrafficPolicy: Local
+
 additionalArguments:
 - "--serverstransport.insecureskipverify=true"
 # add addtional entrypoint to prevent exposing internal applications
