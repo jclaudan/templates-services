@@ -4,6 +4,7 @@ REPO_NAME="crowdsec"
 NAMESPACE="my-crowdsec"
 
 # scriptvars
+set -e
 SCRIPT_PATH=${BASH_SOURCE[0]}
 SCRIPT_FOLDER=$(dirname -- $SCRIPT_PATH)
 

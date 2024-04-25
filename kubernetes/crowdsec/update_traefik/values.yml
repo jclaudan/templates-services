@@ -28,6 +28,9 @@ experimental:
 logs:
   access:
     enabled: true
+    bufferingSize: 100
+    filters:
+      statuscodes: '204-299,400-499,500-59'
 
 # Enable plugins with add args
 additionalArguments:
