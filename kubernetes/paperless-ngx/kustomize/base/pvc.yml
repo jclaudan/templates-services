@@ -1,10 +1,8 @@
-# redis
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: redis-pvc
-  namespace: my-paperless-ngx
 spec:
   accessModes:
     - ReadWriteOnce
@@ -13,13 +11,11 @@ spec:
       storage: 300Mi
 status: {}
 
-# postgres
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: postgres-pvc
-  namespace: my-paperless-ngx
 spec:
   accessModes:
     - ReadWriteOnce
@@ -28,13 +24,11 @@ spec:
       storage: 4Gi
 status: {}
 
-# paperless-ngx
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: paperless-pvc
-  namespace: my-paperless-ngx
 spec:
   accessModes:
     - ReadWriteOnce

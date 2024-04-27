@@ -1,9 +1,9 @@
+# baseline
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: default-deny-all-except-kube-dns
-  namespace: my-paperless-ngx
 spec:
   policyTypes:
   - Ingress
@@ -29,7 +29,6 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-paperless-ngx
-  namespace: my-paperless-ngx
 spec:
   podSelector:
     matchLabels:
@@ -39,69 +38,58 @@ spec:
     - Egress
   ingress:
     - from:
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: traefik-system
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: my-traefik
-        - namespaceSelector:
-            matchLabels:
-              kubernetes.io/metadata.name: kube-system
-          podSelector:
-            matchLabels:
-              app.kubernetes.io/name: traefik
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: traefik-system
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: my-traefik
+      - namespaceSelector:
+          matchLabels:
+            kubernetes.io/metadata.name: kube-system
+        podSelector:
+          matchLabels:
+            app.kubernetes.io/name: traefik
+      - podSelector:
+          matchLabels:
+            app: paperless-ngx-app
       ports:
-        - port: 8000  # paperless-ngx
+        - port: 8000
   egress:
     - to:
-        - podSelector:
-            matchLabels:
-              app: paperless-ngx-db
+      - podSelector:
+          matchLabels:
+            app: paperless-ngx-db
       ports:
-        - protocol: TCP
-          port: 5432
+      - protocol: TCP
+        port: 5432
     - to:
-        - podSelector:
-            matchLabels:
-              app: paperless-ngx-redis
+      - podSelector:
+          matchLabels:
+            app: paperless-ngx-redis
       ports:
-        - protocol: TCP
-          port: 6379
-
----
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: allow-paperless-ngx-db-ingress
-  namespace: my-paperless-ngx
-spec:
-  podSelector:
-    matchLabels:
-      app: paperless-ngx-db
-  policyTypes:
-    - Ingress
-    - Egress
-  ingress:
-    # - from:
-    #     - podSelector:
-    #         matchLabels:
-    #           app: paperless-ngx-redis
-    #   ports:
-    #     - port: 5432
-    - from:
-        - podSelector:
-            matchLabels:
-              app: paperless-ngx-app
+      - protocol: TCP
+        port: 6379
+    - to:
+      - ipBlock:
+          cidr: 0.0.0.0/0
       ports:
-        - port: 5432
+      # SMTP
+      - port: 25
+      - port: 587
+      # IMAP
+      - port: 993
+      - port: 143
+      # POP3
+      - port: 995
+      - port: 110
 
+# redis
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-paperless-ngx-redis-ingress
-  namespace: my-paperless-ngx
 spec:
   podSelector:
     matchLabels:
@@ -116,3 +104,24 @@ spec:
               app: paperless-ngx-app
       ports:
         - port: 6379
+
+# postgres
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-paperless-ngx-db-ingress
+spec:
+  podSelector:
+    matchLabels:
+      app: paperless-ngx-db
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: paperless-ngx-app
+      ports:
+        - port: 5432
