@@ -1,10 +1,41 @@
 version: '3'
 
 services:
+  init_fileprovider:
+    image: busybox
+    command:
+      - sh
+      - -c
+      - |
+        cat > /fileprovider/config.yml << EOF
+        tls:
+          options:
+            default:
+              minVersion: VersionTLS12
+              cipherSuites:
+              # Recommended ciphers for TLSv1.2
+              - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+              - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+              - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+              # Recommended ciphers for TLSv1.3
+              - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+              - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+              - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+            tlsv13only:
+              minVersion: VersionTLS13
+        EOF
+        echo -e "\n------------final file------------\n"
+        cat /fileprovider/config.yml
+    volumes:
+      - traefik_file:/fileprovider
+
   traefik:
     image: "traefik:latest"
     container_name: "traefik"
     restart: unless-stopped
+    depends_on:
+      init_fileprovider:
+        condition: service_completed_successfully
     dns:
       - 1.1.1.1
       - 8.8.8.8
@@ -47,6 +78,12 @@ services:
       - "--entrypoints.websecure.http.tls.domains[0].sans=*.$DOMAINNAME"
       - "--entrypoints.web.http.redirections.entrypoint.to=websecure"
       - "--entrypoints.web.http.redirections.entrypoint.scheme=https"
+      # SSL Ciphers
+      - "--providers.file=true"
+      - "--providers.file.filename=/fileprovider/config.yml"
+      - "--entrypoints.websecure.http.tls.options=default"
+      # middlewares
+      - "--entrypoints.websecure.http.middlewares=hsts-header"
       # Load example plugins
       # - "--experimental.plugins.geoblock.modulename=github.com/PascalMinder/geoblock"
       # - "--experimental.plugins.geoblock.version=v0.2.7"
@@ -70,13 +107,15 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik_certs:/cloudflare
+      - traefik_file:/fileprovider
     labels:
       # https part
       - "traefik.enable=true"
       - "traefik.http.routers.traefik-secure.service=api@internal"
       - "traefik.http.routers.traefik-secure.entrypoints=websecure"
       - "traefik.http.routers.traefik-secure.rule=Host(`t.$DOMAINNAME`)"
-      # middleware
+      # important middleware
+      - "traefik.http.middlewares.hsts-header.headers.customResponseHeaders.Strict-Transport-Security=max-age=63072000"
       # - "traefik.http.middlewares.traefik-auth.basicauth.users=$BASIC_AUTH_LOGIN"
       # - "traefik.http.routers.traefik-secure.middlewares=traefik-auth"
       # - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
@@ -98,6 +137,7 @@ services:
 
 volumes:
   traefik_certs:
+  traefik_file:
 
 networks:
   proxy_network:

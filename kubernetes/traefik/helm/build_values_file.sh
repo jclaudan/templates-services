@@ -15,5 +15,5 @@ helm repo update $REPO_NAME
 # create values file
 test -f "$SCRIPT_FOLDER/$FILE" && echo "$FILE already exists" || {
     # using helm
-    helm show values $REPO_NAME/$CHART_NAME > $SCRIPT_FOLDER/$FILE
+    helm show values $REPO_NAME/$CHART_NAME | tee $SCRIPT_FOLDER/$FILE
 }

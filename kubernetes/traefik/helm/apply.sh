@@ -15,3 +15,6 @@ echo "Running helm for $CHART_NAME in $M mode"
 helm $M $CHART_NAME $REPO_NAME/$CHART_NAME \
  --values $SCRIPT_FOLDER/values.yml \
  -n $NAMESPACE --create-namespace
+
+echo "Configure TLS Options"
+kubectl apply -f $SCRIPT_FOLDER/tls.yml
