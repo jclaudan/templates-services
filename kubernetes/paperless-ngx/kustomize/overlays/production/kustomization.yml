@@ -10,7 +10,7 @@ configMapGenerator:
   behavior: merge
   # Enter your public url
   literals:
-  -  PAPERLESS_URL=https://paperless.public.20.52.171.115.sslip.io
+  -  PAPERLESS_URL=https://paperless.20.20.20.20.sslip.io
 secretGenerator:
 - name: paperless-ngx-db-secret
   behavior: merge
@@ -24,4 +24,4 @@ patches:
   patch: |-
     - op: replace
       path: /spec/rules/0/host
-      value: paperless.public.20.52.171.115.sslip.io
+      value: paperless.20.20.20.20.sslip.io

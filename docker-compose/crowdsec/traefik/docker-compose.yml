@@ -1,11 +1,44 @@
 version: "3.4"
 
 services:
+  # tls options currently not available as docker labels
+  init_fileprovider:
+    image: busybox
+    command:
+      - sh
+      - -c
+      - |
+        cat > /fileprovider/config.yml << EOF
+        tls:
+          options:
+            default:
+              minVersion: VersionTLS12
+              cipherSuites:
+              # Recommended ciphers for TLSv1.2
+              - TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+              - TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+              - TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305
+              # Recommended ciphers for TLSv1.3
+              - TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+              - TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256
+              - TLS_ECDHE_ECDSA_WITH_CHACHA20_POLY1305
+            tlsv13only:
+              minVersion: VersionTLS13
+        EOF
+        echo -e "\n------------final file------------\n"
+        cat /fileprovider/config.yml
+    volumes:
+      - traefik_file:/fileprovider
+
   # your traefik config
   traefik:
-    image: "traefik:latest"
+    image: "traefik:v2.10"
+    #image: "traefik:latest"
     container_name: "traefik"
     restart: unless-stopped
+    depends_on:
+      init_fileprovider:
+        condition: service_completed_successfully
     dns:
       - 1.1.1.1
       - 8.8.8.8
@@ -27,17 +60,21 @@ services:
       - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.websecure.http.tls=true"
-      # Enable dashboard
-      - "--api=true"
-      - "--api.dashboard=true"
-      - "--api.insecure=false"
+      # SSL Ciphers
+      - "--providers.file=true"
+      - "--providers.file.filename=/fileprovider/config.yml"
+      - "--entrypoints.websecure.http.tls.options=default"
       # CrowdSec
       - "--entrypoints.web.http.middlewares=crowdsec-bouncer@docker"
-      - "--entrypoints.websecure.http.middlewares=crowdsec-bouncer@docker"
+      - "--entrypoints.websecure.http.middlewares=crowdsec-bouncer@docker,hsts-header"
       - "--accessLog=true"
       - "--accessLog.filePath=/var/log/crowdsec/traefik.log"
       - "--accessLog.bufferingSize=100" # Configuring a buffer of 100 lines
       - "--accessLog.filters.statusCodes=204-299,400-499,500-59" # Statut code to log
+      # Enable dashboard
+      - "--api=true"
+      - "--api.dashboard=$DASHBOARDENABLED"
+      - "--api.insecure=false"
     security_opt:
       - no-new-privileges:true
     environment:
@@ -46,13 +83,16 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - traefik_certs:/letsencrypt
+      - traefik_file:/fileprovider
       # crowdsec
       - traefik_access_log:/var/log/crowdsec/
     labels:
-      - "traefik.enable=$DASHBOARDENABLED"
+      - "traefik.enable=true"
       - "traefik.http.routers.traefik.service=api@internal"
       - "traefik.http.routers.traefik.entrypoints=websecure"
       - "traefik.http.routers.traefik.rule=Host(`t.$DOMAINNAME`)"
+      # important middleware
+      - "traefik.http.middlewares.hsts-header.headers.customResponseHeaders.Strict-Transport-Security=max-age=63072000"
 
   # init for parser files
   init_parser:
@@ -113,6 +153,7 @@ services:
 
 volumes:
   traefik_certs:
+  traefik_file:
   traefik_access_log:
   crowdsec_db:
   crowdsec_config:
