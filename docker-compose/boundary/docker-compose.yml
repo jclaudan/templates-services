@@ -136,10 +136,10 @@ services:
     networks:
       - proxy_network
       - backend
-    ports:
-      #   - 9200:9200
-      - 9201:9201
-      - 9202:9202
+    # ports:
+    #   - 9200:9200
+    #   - 9201:9201
+    #   - 9202:9202
     environment:
       - TZ=Europe/Berlin
       - BOUNDARY_GLOBAL_KEY=$BOUNDARY_GLOBAL_KEY
@@ -159,20 +159,21 @@ services:
       timeout: 5s
       retries: 5
     labels:
+      # WebUI
       - traefik.enable=true
       - traefik.docker.network=$PROXY_NETWORK
       - traefik.http.routers.boundary-ui.rule=Host(`ui.$SAN_DOMAIN`)
       - traefik.http.routers.boundary-ui.entrypoints=websecure
       - traefik.http.routers.boundary-ui.service=boundary-ui
       - traefik.http.services.boundary-ui.loadbalancer.server.port=9200
-
+      # Control Plane
       - traefik.tcp.routers.boundary-cluster.rule=HostSNI(`cluster.$SAN_DOMAIN`)
       - traefik.tcp.routers.boundary-cluster.entrypoints=websecure
       - traefik.tcp.routers.boundary-cluster.tls=true
       - traefik.tcp.routers.boundary-cluster.tls.passthrough=true
       - traefik.tcp.routers.boundary-cluster.service=boundary-cluster
       - traefik.tcp.services.boundary-cluster.loadbalancer.server.port=9201
-
+      # Worker
       - traefik.tcp.routers.boundary-worker.rule=HostSNI(`worker.$SAN_DOMAIN`)
       - traefik.tcp.routers.boundary-worker.entrypoints=websecure
       - traefik.tcp.routers.boundary-worker.tls=true
