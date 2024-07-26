@@ -1,7 +1,7 @@
+# docker compose run -u --rm root  mssql -- chown -R mssql:root /var/opt/mssql
 version: '3.8'
-
 services:
-  minio:
+  mssql:
     restart: always
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: mssql
