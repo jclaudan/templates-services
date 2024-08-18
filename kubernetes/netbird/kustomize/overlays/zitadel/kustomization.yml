@@ -12,6 +12,7 @@ configMapGenerator:
   - NETBIRD_MGMT_DNS_DOMAIN=sky.net
   - NETBIRD_MGMT_IDP_SIGNKEY_REFRESH=true
   - NETBIRD_DISABLE_ANONYMOUS_METRICS=true
+  - NETBIRD_STORE_CONFIG_ENGINE=sqlite # jsonfile deprecated
   # Configure IDP with PKCE support
   - NETBIRD_USE_AUTH0="false"
   - NETBIRD_AUTH_AUTHORITY=https://auth.127.0.0.1.sslip.io
