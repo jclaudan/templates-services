@@ -18,6 +18,20 @@ services:
       - "traefik.http.routers.headscale.entrypoints=websecure"
       - "traefik.http.services.headscale.loadbalancer.server.port=8080"
 
+  # no authentication, you need preauth
+  # headscale-admin:
+  #   image: goodieshq/headscale-admin:latest
+  #   container_name: headscale-admin
+  #   restart: unless-stopped
+  #   networks:
+  #     - proxy_network
+  #   environment:
+  #     - TZ=Europe/Berlin
+  #   labels:
+  #     - "traefik.enable=true"
+  #     - "traefik.http.routers.headscale-admin.rule=Host(`$PUBLIC_HOSTNAME`) && PathPrefix(`/admin`)"
+  #     - "traefik.http.routers.headscale-admin.entrypoints=websecure"
+
   headscale-webui:
     image: ghcr.io/ifargle/headscale-webui:latest
     container_name: headscale-webui
