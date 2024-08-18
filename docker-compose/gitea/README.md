@@ -1,5 +1,5 @@
-# Ansible Semaphore
+# Gitea
 
-Ansible Semaphore is a modern UI for Ansible. It lets you easily run Ansible playbooks, get notifications about fails, control access to deployment system.
+The goal of this project is to make the easiest, fastest, and most painless way of setting up a self-hosted Git service.
 
-[GitHub Page](https://github.com/semaphoreui/semaphore)
+[GitHub Page](https://github.com/go-gitea/gitea)
